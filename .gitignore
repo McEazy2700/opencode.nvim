@@ -1,0 +1,14 @@
+# Gemini / Antigravity CLI project metadata (local symlinks)
+.antigravitycli/
+
+# Lua language server cache
+.luarc.json.bak
+
+# Editor and OS artifacts
+.DS_Store
+*.swp
+*.swo
+*~
+
+# Test runner output
+/test-results/
