@@ -31,11 +31,24 @@ live editor state before the text is sent.
 ### [lazy.nvim](https://github.com/folke/lazy.nvim)
 
 ```lua
-{
+return {
   "McEazy2700/opencode.nvim",
-  config = function()
-    require("opencode").setup()
-  end,
+  dependencies = {
+    "folke/snacks.nvim",
+  },
+  opts = {
+    terminal = {
+      size = 100,
+    },
+    -- See Configuration section for options
+  },
+  keys = {
+    { "<leader>o",  nil,                       desc = "Opencode" },
+    { "<M-o>",      "<cmd>Opencode<cr>",       desc = "Toggle Opencode",        mode = { "n", "i", "t" } },
+    { "<M-o>",      "<cmd>OpencodeAsk<cr>",    desc = "Ask Opencode",           mode = { "v" } },
+    { "<leader>oa", "<cmd>OpencodeAsk<cr>",    desc = "Ask Opencode",           mode = { "n" } },
+    { "<leader>os", "<cmd>OpencodeSelect<cr>", desc = "Opencode prompt picker", mode = { "n" } },
+  },
 }
 ```
 
@@ -44,8 +57,13 @@ live editor state before the text is sent.
 ```lua
 use {
   "McEazy2700/opencode.nvim",
+  requires = { "folke/snacks.nvim" },
   config = function()
-    require("opencode").setup()
+    require("opencode").setup({
+      terminal = {
+        size = 100,
+      },
+    })
   end,
 }
 ```
