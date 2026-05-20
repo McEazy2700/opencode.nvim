@@ -1,9 +1,9 @@
 local M = {}
 
 ---Global completion function for @placeholder names in vim.ui.input.
----Registered as a global so `completion = "customlist,v:lua.opencode_cli_completion"` works.
-_G.opencode_cli_completion = function(ArgLead, CmdLine, CursorPos) -- luacheck: ignore
-  local Context = require("opencode-cli.context")
+---Registered as a global so `completion = "customlist,v:lua.opencode_completion"` works.
+_G.opencode_completion = function(ArgLead, CmdLine, CursorPos) -- luacheck: ignore
+  local Context = require("opencode.context")
   local placeholders = Context.placeholders()
 
   -- ArgLead doesn't always isolate the last word correctly, so parse from CmdLine
@@ -28,17 +28,17 @@ end
 function M.ask(cmd_opts)
   cmd_opts = cmd_opts or {}
 
-  local Context = require("opencode-cli.context")
+  local Context = require("opencode.context")
   local ctx = Context.new()
 
   local sel_text, sel_range = ctx:selection_text()
   local path = vim.api.nvim_buf_get_name(ctx.buf)
 
-  local config = require("opencode-cli.config")
+  local config = require("opencode.config")
 
   vim.ui.input({
     prompt     = config.options.ask.prompt,
-    completion = "customlist,v:lua.opencode_cli_completion",
+    completion = "customlist,v:lua.opencode_completion",
   }, function(input)
     if not input or input == "" then return end
 
@@ -59,14 +59,14 @@ function M.ask(cmd_opts)
       final = ctx:render(input)
     end
 
-    require("opencode-cli.terminal").send(final)
+    require("opencode.terminal").send(final)
   end)
 end
 
 ---Show a picker to choose from predefined prompts or commands.
 function M.select()
-  local config  = require("opencode-cli.config")
-  local Context = require("opencode-cli.context")
+  local config  = require("opencode.config")
+  local Context = require("opencode.context")
   local ctx     = Context.new()
 
   local items = {}
@@ -108,10 +108,10 @@ function M.select()
         M._ask_with_default(prompt:gsub("%.%.%.$", ""), ctx)
       else
         local rendered = ctx:render(prompt)
-        require("opencode-cli.terminal").send(rendered)
+        require("opencode.terminal").send(rendered)
       end
     elseif choice.type == "command" then
-      require("opencode-cli.terminal").send("/" .. choice.name)
+      require("opencode.terminal").send("/" .. choice.name)
     end
   end)
 end
@@ -120,31 +120,31 @@ end
 ---@param default string
 ---@param ctx? OpencodeContext
 function M._ask_with_default(default, ctx)
-  local config = require("opencode-cli.config")
-  ctx = ctx or require("opencode-cli.context").new()
+  local config = require("opencode.config")
+  ctx = ctx or require("opencode.context").new()
 
   vim.ui.input({
     prompt     = config.options.ask.prompt,
     default    = default,
-    completion = "customlist,v:lua.opencode_cli_completion",
+    completion = "customlist,v:lua.opencode_completion",
   }, function(input)
     if not input or input == "" then return end
-    require("opencode-cli.terminal").send(ctx:render(input))
+    require("opencode.terminal").send(ctx:render(input))
   end)
 end
 
 ---Select from configured models and pass to the running terminal (or start with it).
 function M.select_model()
-  local config  = require("opencode-cli.config")
+  local config  = require("opencode.config")
   local models  = config.options.models or {}
   if #models == 0 then
-    vim.notify("opencode-cli: no models configured", vim.log.levels.WARN)
+    vim.notify("opencode: no models configured", vim.log.levels.WARN)
     return
   end
 
   vim.ui.select(models, { prompt = "Select opencode model: " }, function(choice)
     if not choice then return end
-    local term = require("opencode-cli.terminal")
+    local term = require("opencode.terminal")
     if term.buf and vim.api.nvim_buf_is_valid(term.buf) then
       term.send("/model " .. choice)
     else

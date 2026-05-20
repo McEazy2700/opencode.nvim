@@ -1,4 +1,4 @@
-# opencode-cli.nvim
+# opencode.nvim
 
 A Neovim plugin for [opencode](https://opencode.ai) — the AI coding assistant.
 
@@ -34,7 +34,7 @@ live editor state before the text is sent.
 {
   "McEazy2700/opencode.nvim",
   config = function()
-    require("opencode-cli").setup()
+    require("opencode").setup()
   end,
 }
 ```
@@ -45,7 +45,7 @@ live editor state before the text is sent.
 use {
   "McEazy2700/opencode.nvim",
   config = function()
-    require("opencode-cli").setup()
+    require("opencode").setup()
   end,
 }
 ```
@@ -57,7 +57,7 @@ use {
 Call `setup()` once in your config. All options are optional.
 
 ```lua
-require("opencode-cli").setup({
+require("opencode").setup({
   -- The opencode binary name or absolute path
   command = "opencode",
 
@@ -180,7 +180,7 @@ Add tests for @this
 Any function that returns a string can be a context:
 
 ```lua
-require("opencode-cli").setup({
+require("opencode").setup({
   contexts = {
     -- Built-ins (keep or override as needed)
     ["@this"]        = function(ctx) return ctx:this() end,
@@ -228,7 +228,7 @@ require("opencode-cli").setup({
 ## Health check
 
 ```
-:checkhealth opencode-cli
+:checkhealth opencode
 ```
 
 Verifies the binary, Neovim version, terminal state, snacks availability,
@@ -239,7 +239,7 @@ configured placeholders, and `git`.
 ## Programmatic API
 
 ```lua
-local oc = require("opencode-cli")
+local oc = require("opencode")
 
 oc.open()           -- open / toggle terminal
 oc.ask()            -- open ask input

@@ -1,11 +1,11 @@
 local M = {}
 
 function M.setup(opts)
-  local config = require("opencode-cli.config")
+  local config = require("opencode.config")
   M.config = config.setup(opts)
 
-  local term = require("opencode-cli.terminal")
-  local cmds = require("opencode-cli.commands")
+  local term = require("opencode.terminal")
+  local cmds = require("opencode.commands")
 
   vim.api.nvim_create_user_command("Opencode", function()
     term.open()
@@ -39,19 +39,19 @@ end
 -- Convenience wrappers (usable from keymaps without going through the command layer)
 
 function M.open()
-  require("opencode-cli.terminal").open()
+  require("opencode.terminal").open()
 end
 
 function M.ask(opts)
-  require("opencode-cli.commands").ask(opts)
+  require("opencode.commands").ask(opts)
 end
 
 function M.select()
-  require("opencode-cli.commands").select()
+  require("opencode.commands").select()
 end
 
 function M.send(text)
-  require("opencode-cli.terminal").send(text)
+  require("opencode.terminal").send(text)
 end
 
 return M

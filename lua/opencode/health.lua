@@ -1,9 +1,9 @@
 local M = {}
 
 function M.check()
-  vim.health.start("opencode-cli.nvim")
+  vim.health.start("opencode.nvim")
 
-  local config = require("opencode-cli.config")
+  local config = require("opencode.config")
 
   -- opencode binary
   local cmd = config.options and config.options.command or "opencode"
@@ -21,7 +21,7 @@ function M.check()
   end
 
   -- Terminal state
-  local term = require("opencode-cli.terminal")
+  local term = require("opencode.terminal")
   if term.buf and vim.api.nvim_buf_is_valid(term.buf) then
     vim.health.ok(string.format("Terminal is running (buf=%d, pid=%s)",
       term.buf, tostring(term._pid)))

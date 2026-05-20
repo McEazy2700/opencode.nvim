@@ -184,7 +184,7 @@ end
 ---@param prompt string
 ---@return string rendered
 function Context:render(prompt)
-  local contexts = require("opencode-cli.config").options.contexts
+  local contexts = require("opencode.config").options.contexts
   local keys = vim.tbl_keys(contexts)
   -- Longer keys first to prevent @buffer matching before @buffers
   table.sort(keys, function(a, b) return #a > #b end)
@@ -204,7 +204,7 @@ end
 ---Sorted list of all configured placeholder keys (for completion).
 ---@return string[]
 function Context.placeholders()
-  local keys = vim.tbl_keys(require("opencode-cli.config").options.contexts)
+  local keys = vim.tbl_keys(require("opencode.config").options.contexts)
   table.sort(keys)
   return keys
 end

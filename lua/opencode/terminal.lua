@@ -1,6 +1,6 @@
 local M = {}
 
-local config = require("opencode-cli.config")
+local config = require("opencode.config")
 
 M.buf = nil
 M.win = nil
@@ -157,7 +157,7 @@ M.providers = {
     open = function(buf)
       local ok, snacks = pcall(require, "snacks")
       if not ok then
-        vim.notify("opencode-cli: snacks.nvim not found, falling back to float", vim.log.levels.WARN)
+        vim.notify("opencode: snacks.nvim not found, falling back to float", vim.log.levels.WARN)
         return M.providers.float.open(buf)
       end
       local fo  = config.options.terminal.float_opts
